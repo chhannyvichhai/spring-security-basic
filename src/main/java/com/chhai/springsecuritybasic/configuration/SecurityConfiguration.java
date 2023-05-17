@@ -17,36 +17,46 @@ public class SecurityConfiguration {
 
     // configuration for the security
     @Bean
-    public SecurityFilterChain filterChain (HttpSecurity httpSecurity) throws Exception{
+    public SecurityFilterChain filterChain (HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable()
                 .authorizeHttpRequests()
-                .requestMatchers("/admin/**")
-                .hasRole("ADMIN")
+                .requestMatchers("/homepage", "/feed","/email/**")
+                .permitAll()
                 .requestMatchers("/user/**")
                 .hasRole("USER")
-                .requestMatchers("/home/**")
-                .anonymous()
-                .anyRequest()
-                .authenticated()
+                .requestMatchers("/admin/**")
+                .hasRole("ADMIN")
+                .anyRequest().authenticated()
                 .and()
                 .formLogin();
 
         return httpSecurity.build();
     }
 
+//                .requestMatchers("/admin/**")
+//                .hasRole("ADMIN")
+//                .requestMatchers("/user/**")
+//                .hasRole("USER")
+//                .requestMatchers("/home/**")
+//                .anonymous()
+//                .anyRequest()
+//                .authenticated()
+//                .and()
+//                .formLogin();
+
     // set up user credential
-    @Bean
-    public InMemoryUserDetailsManager userDetailsManager(){
-        UserDetails user1 = User.withUsername("Chhai")
-                .password("Chhai@me")
-                .roles("USER")
-                .build();
-        UserDetails user2 = User.withUsername("Momo")
-                .password("Momo@me")
-                .roles("ADMIN","USER")
-                .build();
-        return new InMemoryUserDetailsManager(user1,user2);
-    }
+//    @Bean
+//    public InMemoryUserDetailsManager userDetailsManager(){
+//        UserDetails user1 = User.withUsername("Chhai")
+//                .password("Chhai@me")
+//                .roles("USER")
+//                .build();
+//        UserDetails user2 = User.withUsername("Momo")
+//                .password("Momo@me")
+//                .roles("ADMIN","USER")
+//                .build();
+//        return new InMemoryUserDetailsManager(user1,user2);
+//    }
 
     // password encoder
     @SuppressWarnings("deprecation")
